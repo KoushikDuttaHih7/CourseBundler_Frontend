@@ -30,6 +30,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     console.log('Logged Out');
+    onClose();
   };
 
   return (
@@ -53,11 +54,15 @@ const Header = () => {
           <DrawerHeader borderBottomWidth={'1px'}>COURSE BUNDLER</DrawerHeader>
           <DrawerBody>
             <VStack spacing={'4'} alignItems={'flex-start'}>
-              <LinkButton url="/" title="Home" />
-              <LinkButton url="/about" title="About" />
-              <LinkButton url="/courses" title="courses" />
-              <LinkButton url="/request" title="Request a Course" />
-              <LinkButton url="/contact" title="Contact Us" />
+              <LinkButton onClick={onClose} url="/" title="Home" />
+              <LinkButton onClick={onClose} url="/about" title="About" />
+              <LinkButton onClick={onClose} url="/courses" title="courses" />
+              <LinkButton
+                onClick={onClose}
+                url="/request"
+                title="Request a Course"
+              />
+              <LinkButton onClick={onClose} url="/contact" title="Contact Us" />
               <HStack
                 justifyContent={'space-evenly'}
                 position={'absolute'}
@@ -68,7 +73,7 @@ const Header = () => {
                   <>
                     <VStack>
                       <HStack>
-                        <Link to="/profile">
+                        <Link onClick={onClose} to="/profile">
                           <Button variant={'ghost'} colorScheme={'yellow'}>
                             Profile
                           </Button>
@@ -80,7 +85,7 @@ const Header = () => {
                         </Button>
                       </HStack>
                       {user && user.role === 'admin' && (
-                        <Link to="/admin/dashboard">
+                        <Link onClick={onClose} to="/admin/dashboard">
                           <Button colorScheme={'purple'} variant={'ghost'}>
                             <RiDashboardFill style={{ margin: '4px' }} />
                             Dashboard
@@ -91,11 +96,11 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Link to="/login">
+                    <Link onClick={onClose} to="/login">
                       <Button colorScheme={'yellow'}>Login</Button>
                     </Link>
                     <p>OR</p>
-                    <Link to="/register">
+                    <Link onClick={onClose} to="/register">
                       <Button colorScheme={'yellow'}>Sign Up</Button>
                     </Link>
                   </>
