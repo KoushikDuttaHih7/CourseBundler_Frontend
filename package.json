@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "course_bundler",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
