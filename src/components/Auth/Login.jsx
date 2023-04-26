@@ -54,7 +54,7 @@ const Login = () => {
           </Button>
           <Box my="4">
             New User ?{' '}
-            <Link to="register">
+            <Link to="/register">
               <Button colorScheme="yellow" variant="link">
                 Sign Up
               </Button>
