@@ -11,7 +11,7 @@ import { Link, useLocation } from 'react-router-dom';
 const Sidebar = () => {
   const location = useLocation();
   return (
-    <VStack spacing={'8'} p="16" boxShadow={'-2px 0 10px rgba(107,70,193,0.5'}>
+    <VStack spacing={'8'} p="16" boxShadow={'-2px 0 10px rgba(107,70,193,0.5)'}>
       <LinkButton
         Icon={RiDashboardFill}
         text="Dashboard"
