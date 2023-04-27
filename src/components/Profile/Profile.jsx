@@ -190,11 +190,12 @@ function ChangePhotoBox({ isOpen, onClose, changeImageSubmitHandler }) {
             </form>
           </Container>
         </ModalBody>
-        <ModalFooter>
+        {/* <ModalFooter>
           <Button mr="3" onClick={closeHandler}>
             Cancel
           </Button>
-        </ModalFooter>
+        </ModalFooter> */}
+        <ModalFooter />
       </ModalContent>
     </Modal>
   );
