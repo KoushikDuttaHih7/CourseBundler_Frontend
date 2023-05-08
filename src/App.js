@@ -26,6 +26,7 @@ import Users from './components/Admin/Users/Users';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 import { loadUser } from './redux/user';
+import { ProtectedRoute } from 'protected-route-react';
 
 function App() {
   window.addEventListener('contextmenu', e => {
@@ -64,15 +65,42 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/request" element={<Request />} />
         <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute
+              isAuthenticated={!isAuthenticated}
+              redirect="/profile"
+            >
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRoute
+              isAuthenticated={!isAuthenticated}
+              redirect="/profile"
+            >
+              <Register />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword/:token" element={<ResetPassword />} />
         <Route path="/subscribe" element={<Subscribe />} />
         <Route path="/paymentsuccess" element={<PaySuccess />} />
         <Route path="/paymentfail" element={<PaymentFail />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/updateprofile" element={<UpdateProfile />} />
         {/* Admin Routes */}
