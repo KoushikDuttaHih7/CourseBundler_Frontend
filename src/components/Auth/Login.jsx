@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { login } from '../../redux/user';
+import { login } from '../../redux/actions/user';
 
 const Login = () => {
   const [email, setEmail] = useState('');

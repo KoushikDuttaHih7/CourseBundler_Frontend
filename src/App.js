@@ -25,7 +25,7 @@ import AdminCourses from './components/Admin/AdminCourses/AdminCourses';
 import Users from './components/Admin/Users/Users';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
-import { loadUser } from './redux/user';
+import { loadUser } from './redux/actions/user';
 import { ProtectedRoute } from 'protected-route-react';
 
 function App() {
