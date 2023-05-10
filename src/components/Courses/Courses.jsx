@@ -9,8 +9,11 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllCourses } from '../../redux/actions/course';
+import { toast } from 'react-hot-toast';
 
 const Course = ({
   views,
@@ -21,6 +24,7 @@ const Course = ({
   creator,
   description,
   lectureCount,
+  category,
 }) => {
   return (
     <VStack className="course" alignItems={['center', 'flex-start']}>
@@ -34,6 +38,11 @@ const Course = ({
         children={title}
       />
       <Text noOfLines={2} children={description} />
+      <Text
+        fontWeight={'bold'}
+        textTransform={'uppercase'}
+        children={category}
+      />
       <HStack>
         <Text
           fontWeight={'bold'}
@@ -76,9 +85,10 @@ const Course = ({
 const Courses = () => {
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('');
+  const dispatch = useDispatch();
 
-  const addToPlaylistHandler = () => {
-    console.log('added To Playlist');
+  const addToPlaylistHandler = courseId => {
+    console.log('added To Playlist', courseId);
   };
 
   const categories = [
@@ -90,6 +100,17 @@ const Courses = () => {
     'Game Development',
     'React Native',
   ];
+
+  const { courses, error } = useSelector(state => state.course);
+
+  useEffect(() => {
+    dispatch(getAllCourses(category, keyword));
+
+    if (error) {
+      toast.error(error);
+      dispatch({ type: 'clearError' });
+    }
+  }, [category, keyword, dispatch, error]);
 
   return (
     <Container minH={'95vh'} maxW="container.lg" padding={'8'}>
@@ -123,17 +144,24 @@ const Courses = () => {
         justifyContent={['flex-start', 'space-evenly']}
         alignItems={['center', 'flex-start']}
       >
-        <Course
-          title={'Sample'}
-          description={'Sample'}
-          views={23}
-          imgSrc={
-            'https://images.pexels.com/photos/16148457/pexels-photo-16148457.jpeg'
-          }
-          creator={'Sample Boy'}
-          lectureCount={2}
-          addToPlaylistHandler={addToPlaylistHandler}
-        />
+        {courses.length > 0 ? (
+          courses.map(item => (
+            <Course
+              key={item._id}
+              title={item.title}
+              description={item.description}
+              category={item.category}
+              views={item.views}
+              imgSrc={item.poster.url}
+              id={item._id}
+              creator={item.createdBy}
+              lectureCount={item.numOfVideos}
+              addToPlaylistHandler={addToPlaylistHandler}
+            />
+          ))
+        ) : (
+          <Heading opacity={0.5} mt="4" children={'Course Not Found'} />
+        )}
       </Stack>
     </Container>
   );
