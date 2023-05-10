@@ -30,7 +30,7 @@ const ResetPassword = () => {
       dispatch({ type: 'clearMesssage' });
       navigate('/login');
     }
-  }, [dispatch, error, message]);
+  }, [dispatch, error, message, navigate]);
 
   return (
     <Container py="16" h="90vh">
