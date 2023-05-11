@@ -17,4 +17,5 @@ const store = configureStore({
 
 export default store;
 
-export const server = 'https://coursebundler-server-encx.onrender.com/api/v1';
+// export const server = 'https://coursebundler-server-encx.onrender.com/api/v1';
+export const server = 'https://course-bundler-server-sooty.vercel.app/api/v1';

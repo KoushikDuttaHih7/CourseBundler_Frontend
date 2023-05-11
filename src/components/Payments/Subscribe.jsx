@@ -21,6 +21,7 @@ const Subscribe = ({ user }) => {
   const { loading, error, subscriptionId } = useSelector(
     state => state.subscription
   );
+  const { error: courseError } = useSelector(state => state.course);
 
   const subscribeHandler = async () => {
     const { data } = await axios.get(`${server}/razorpaykey`);
@@ -31,6 +32,10 @@ const Subscribe = ({ user }) => {
   useEffect(() => {
     if (error) {
       toast.error(error);
+      dispatch({ type: 'clearError' });
+    }
+    if (courseError) {
+      toast.error(courseError);
       dispatch({ type: 'clearError' });
     }
     if (subscriptionId) {
@@ -61,7 +66,15 @@ const Subscribe = ({ user }) => {
       openPopUp();
       dispatch({ type: 'clearError' });
     }
-  }, [dispatch, error, user.name, user.email, key, subscriptionId]);
+  }, [
+    dispatch,
+    error,
+    courseError,
+    user.name,
+    user.email,
+    key,
+    subscriptionId,
+  ]);
 
   return (
     <Container h="90vh" p="16">
