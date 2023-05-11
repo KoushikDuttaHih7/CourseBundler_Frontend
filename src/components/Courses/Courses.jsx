@@ -14,6 +14,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCourses } from '../../redux/actions/course';
 import { toast } from 'react-hot-toast';
+import { addToPlaylist } from '../../redux/actions/profile';
+import { loadUser } from '../../redux/actions/user';
 
 const Course = ({
   views,
@@ -25,6 +27,7 @@ const Course = ({
   description,
   lectureCount,
   category,
+  loading,
 }) => {
   return (
     <VStack className="course" alignItems={['center', 'flex-start']}>
@@ -71,6 +74,7 @@ const Course = ({
           <Button colorScheme="yellow">Watch Now</Button>
         </Link>
         <Button
+          isLoading={loading}
           variant={'ghost'}
           colorScheme="yellow"
           onClick={() => addToPlaylistHandler(id)}
@@ -87,8 +91,10 @@ const Courses = () => {
   const [category, setCategory] = useState('');
   const dispatch = useDispatch();
 
-  const addToPlaylistHandler = courseId => {
-    console.log('added To Playlist', courseId);
+  const addToPlaylistHandler = async courseId => {
+    // console.log('added To Playlist', courseId);
+    await dispatch(addToPlaylist(courseId));
+    dispatch(loadUser());
   };
 
   const categories = [
@@ -101,7 +107,9 @@ const Courses = () => {
     'React Native',
   ];
 
-  const { courses, error } = useSelector(state => state.course);
+  const { loading, courses, error, message } = useSelector(
+    state => state.course
+  );
 
   useEffect(() => {
     dispatch(getAllCourses(category, keyword));
@@ -110,7 +118,11 @@ const Courses = () => {
       toast.error(error);
       dispatch({ type: 'clearError' });
     }
-  }, [category, keyword, dispatch, error]);
+    if (message) {
+      toast.success(message);
+      dispatch({ type: 'clearMessage' });
+    }
+  }, [category, keyword, dispatch, error, message]);
 
   return (
     <Container minH={'95vh'} maxW="container.lg" padding={'8'}>
@@ -157,6 +169,7 @@ const Courses = () => {
               creator={item.createdBy}
               lectureCount={item.numOfVideos}
               addToPlaylistHandler={addToPlaylistHandler}
+              loading={loading}
             />
           ))
         ) : (
