@@ -62,3 +62,35 @@ export const loadUser = () => async dispatch => {
     dispatch({ type: 'loadUserFail', payload: error.response.data.message });
   }
 };
+
+export const buySubscription = () => async dispatch => {
+  try {
+    dispatch({ type: 'buySubscriptionRequest' });
+    const { data } = await axios.get(`${server}/subscribe`, {
+      withCredentials: true,
+    });
+    // console.log(data);
+    dispatch({ type: 'buySubscriptionSuccess', payload: data.subscriptionId });
+  } catch (error) {
+    dispatch({
+      type: 'buySubscriptionFail',
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const cancelSubscription = () => async dispatch => {
+  try {
+    dispatch({ type: 'cancelSubscriptionRequest' });
+    const { data } = await axios.delete(`${server}/subscribe/cancel`, {
+      withCredentials: true,
+    });
+    // console.log(data);
+    dispatch({ type: 'cancelSubscriptionSuccess', payload: data.message });
+  } catch (error) {
+    dispatch({
+      type: 'cancelSubscriptionFail',
+      payload: error.response.data.message,
+    });
+  }
+};

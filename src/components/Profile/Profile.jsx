@@ -27,12 +27,17 @@ import {
   removeFromPlaylist,
   updateProfilePicture,
 } from '../../redux/actions/profile';
-import { loadUser } from '../../redux/actions/user';
+import { cancelSubscription, loadUser } from '../../redux/actions/user';
 import { toast } from 'react-hot-toast';
 
 const Profile = ({ user }) => {
   const dispatch = useDispatch();
   const { loading, message, error } = useSelector(state => state.profile);
+  const {
+    loading: subscriptionLoading,
+    message: subscriptionMessage,
+    error: subscriptionError,
+  } = useSelector(state => state.subscription);
 
   const changeImageSubmitHandler = async (e, image) => {
     e.preventDefault();
@@ -48,6 +53,10 @@ const Profile = ({ user }) => {
     dispatch(loadUser());
   };
 
+  const cancelSubscriptionHandler = () => {
+    dispatch(cancelSubscription());
+  };
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -57,7 +66,16 @@ const Profile = ({ user }) => {
       toast.success(message);
       dispatch({ type: 'clearMessage' });
     }
-  }, [dispatch, error, message]);
+    if (subscriptionError) {
+      toast.error(subscriptionError);
+      dispatch({ type: 'clearError' });
+    }
+    if (subscriptionMessage) {
+      toast.success(subscriptionMessage);
+      dispatch({ type: 'clearMessage' });
+      dispatch(loadUser());
+    }
+  }, [dispatch, error, message, subscriptionError, subscriptionMessage]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -98,8 +116,13 @@ const Profile = ({ user }) => {
           {user.role !== 'admin' && (
             <HStack>
               <Text children="Subscription" fontWeight={'bold'} />
-              {user.subsciption && user.subsciption.status === 'active' ? (
-                <Button color={'yellow.500'} variant={'unstyled'}>
+              {user.subscription && user.subscription.status === 'active' ? (
+                <Button
+                  onClick={cancelSubscriptionHandler}
+                  color={'yellow.500'}
+                  variant="unstyled"
+                  isLoading={subscriptionLoading}
+                >
                   Cancel Subscription
                 </Button>
               ) : (
@@ -107,6 +130,7 @@ const Profile = ({ user }) => {
                   <Button colorScheme={'yellow'}>Subscribe</Button>
                 </Link>
               )}
+              {/* <Text children={user.role} /> */}
             </HStack>
           )}
           <Stack direction={['column', 'row']} alignItems={['center']}>
