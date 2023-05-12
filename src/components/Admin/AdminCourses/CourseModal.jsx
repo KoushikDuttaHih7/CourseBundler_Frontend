@@ -26,7 +26,8 @@ const CourseModal = ({
   deleteButtonHandler,
   addLectureHandler,
   courseTitle,
-  lectures = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  lectures = [],
+  loading,
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -76,12 +77,13 @@ const CourseModal = ({
               {lectures.map((item, i) => (
                 <VideoCard
                   key={i}
-                  title="React Intro"
-                  description="This is a test intro video of Testing the test app"
+                  title={item.title}
+                  description={item.description}
                   num={i + 1}
-                  lectureId="457"
+                  lectureId={item._id}
                   courseId={id}
                   deleteButtonHandler={deleteButtonHandler}
+                  isLoading={loading}
                 />
               ))}
             </Box>
@@ -129,7 +131,12 @@ const CourseModal = ({
                       src={videoPrev}
                     ></video>
                   )}
-                  <Button w="full" colorScheme="purple" type="submit">
+                  <Button
+                    isLoading={loading}
+                    w="full"
+                    colorScheme="purple"
+                    type="submit"
+                  >
                     Upload
                   </Button>
                 </VStack>
