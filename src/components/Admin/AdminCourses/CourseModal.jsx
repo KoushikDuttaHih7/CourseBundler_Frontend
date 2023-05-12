@@ -18,6 +18,7 @@ import {
 import React, { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { fileUploadCss } from '../../Auth/Register';
+import { useSelector } from 'react-redux';
 
 const CourseModal = ({
   isOpen,
@@ -27,12 +28,13 @@ const CourseModal = ({
   addLectureHandler,
   courseTitle,
   lectures = [],
-  loading,
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [video, setVideo] = useState('');
   const [videoPrev, setVideoPrev] = useState('');
+
+  const { loading } = useSelector(state => state.admin);
 
   const changeVideoHandler = e => {
     const file = e.target.files[0];
@@ -83,7 +85,7 @@ const CourseModal = ({
                   lectureId={item._id}
                   courseId={id}
                   deleteButtonHandler={deleteButtonHandler}
-                  isLoading={loading}
+                  loading={loading}
                 />
               ))}
             </Box>
@@ -161,6 +163,7 @@ function VideoCard({
   lectureId,
   courseId,
   deleteButtonHandler,
+  loading,
 }) {
   return (
     <Stack
@@ -176,6 +179,7 @@ function VideoCard({
         <Text children={description} />
       </Box>
       <Button
+        isLoading={loading}
         color={'purple.600'}
         onClick={() => deleteButtonHandler(courseId, lectureId)}
       >
