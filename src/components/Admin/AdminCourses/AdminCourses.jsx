@@ -15,28 +15,18 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import CourseModal from './CourseModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllCourses } from '../../../redux/actions/course';
 
 const AdminCourses = () => {
-  const courses = [
-    {
-      _id: '123',
-      title: 'very good video',
-      category: 'web',
-      createdBy: 'admin',
-      poster: {
-        url: 'https://images.pexels.com/photos/15679627/pexels-photo-15679627.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      },
-      views: 126,
-      numOfVideos: 12,
-    },
-  ];
-
+  const { courses } = useSelector(state => state.course);
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const dispatch = useDispatch();
 
   const courseDetailsHanlder = userId => {
     onOpen();
@@ -53,6 +43,10 @@ const AdminCourses = () => {
   const addLectureHandler = (e, courseId, title, description, video) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    dispatch(getAllCourses());
+  }, [dispatch]);
 
   return (
     <Grid
