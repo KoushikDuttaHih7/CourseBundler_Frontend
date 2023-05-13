@@ -99,6 +99,7 @@ const Courses = () => {
 
   const categories = [
     'Web Development',
+    'React Js',
     'Artificial Intellegence',
     'Data Structure & Algorithm',
     'App Development',

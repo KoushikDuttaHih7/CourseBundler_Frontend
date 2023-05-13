@@ -15,6 +15,8 @@ import { fileUploadCss } from '../../Auth/Register';
 import { createCourse } from '../../../redux/actions/admin';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
+import { loadUser } from '../../../redux/actions/user';
+import { useNavigate } from 'react-router-dom';
 
 const CreateCourse = () => {
   const [title, setTitle] = useState('');
@@ -23,9 +25,11 @@ const CreateCourse = () => {
   const [createdBy, setCreatedBy] = useState('');
   const [image, setImage] = useState('');
   const [imagePrev, setImagePrev] = useState('');
+  const navigate = useNavigate();
 
   const categories = [
     'Web Development',
+    'React Js',
     'Artificial Intellegence',
     'Data Structure & Algorithm',
     'App Development',
@@ -49,7 +53,7 @@ const CreateCourse = () => {
   const dispatch = useDispatch();
   const { loading, error, message } = useSelector(state => state.admin);
 
-  const submitHandler = e => {
+  const submitHandler = async e => {
     e.preventDefault();
     const myForm = new FormData();
 
@@ -59,7 +63,9 @@ const CreateCourse = () => {
     myForm.append('createdBy', createdBy);
     myForm.append('file', image);
 
-    dispatch(createCourse(myForm));
+    await dispatch(createCourse(myForm));
+    dispatch(loadUser());
+    navigate('/admin/courses');
   };
 
   useEffect(() => {
