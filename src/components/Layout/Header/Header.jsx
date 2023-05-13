@@ -24,7 +24,6 @@ const LinkButton = ({ url = '/', title = 'Home', onClose }) => (
 
 const Header = ({ isAuthenticated = false, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
@@ -54,15 +53,15 @@ const Header = ({ isAuthenticated = false, user }) => {
           <DrawerHeader borderBottomWidth={'1px'}>COURSE BUNDLER</DrawerHeader>
           <DrawerBody>
             <VStack spacing={'4'} alignItems={'flex-start'}>
-              <LinkButton onClick={onClose} url="/" title="Home" />
-              <LinkButton onClick={onClose} url="/about" title="About" />
-              <LinkButton onClick={onClose} url="/courses" title="Courses" />
+              <LinkButton onClose={onClose} url="/" title="Home" />
+              <LinkButton onClose={onClose} url="/about" title="About" />
+              <LinkButton onClose={onClose} url="/courses" title="Courses" />
               <LinkButton
-                onClick={onClose}
+                onClose={onClose}
                 url="/request"
                 title="Request a Course"
               />
-              <LinkButton onClick={onClose} url="/contact" title="Contact Us" />
+              <LinkButton onClose={onClose} url="/contact" title="Contact Us" />
               <HStack
                 justifyContent={'space-evenly'}
                 position={'absolute'}
