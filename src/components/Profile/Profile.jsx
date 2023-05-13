@@ -19,19 +19,21 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { fileUploadCss } from '../Auth/Register';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   removeFromPlaylist,
   updateProfilePicture,
+  deleteProfile,
 } from '../../redux/actions/profile';
 import { cancelSubscription, loadUser } from '../../redux/actions/user';
 import { toast } from 'react-hot-toast';
 
 const Profile = ({ user }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, message, error } = useSelector(state => state.profile);
   const {
     loading: subscriptionLoading,
@@ -55,6 +57,12 @@ const Profile = ({ user }) => {
 
   const cancelSubscriptionHandler = () => {
     dispatch(cancelSubscription());
+  };
+
+  const deleteProfileHandler = async () => {
+    await dispatch(deleteProfile());
+    dispatch(loadUser());
+    navigate('/register');
   };
 
   useEffect(() => {
@@ -140,6 +148,9 @@ const Profile = ({ user }) => {
             <Link to="/changepassword">
               <Button>Change Password</Button>
             </Link>
+            <Button isLoading={loading} onClick={deleteProfileHandler}>
+              Delete Profile <RiDeleteBin7Fill />
+            </Button>
           </Stack>
         </VStack>
       </Stack>

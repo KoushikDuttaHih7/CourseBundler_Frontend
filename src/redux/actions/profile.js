@@ -180,3 +180,21 @@ export const removeFromPlaylist = id => async dispatch => {
     });
   }
 };
+
+export const deleteProfile = () => async dispatch => {
+  try {
+    dispatch({ type: 'deleteProfileRequest ' });
+    const { data } = await axios.delete(`${server}/me`, {
+      withCredentials: true,
+    });
+    dispatch({
+      type: 'deleteProfileSuccess',
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: 'deleteProfileFail',
+      payload: error.response.data.message,
+    });
+  }
+};
