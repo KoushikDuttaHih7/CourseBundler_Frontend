@@ -22,6 +22,7 @@ import UpdateProfile from './components/Profile/UpdateProfile';
 import Dashboard from './components/Admin/Dashboard/Dashboard';
 import CreateCourse from './components/Admin/CreateCourse/CreateCourse';
 import AdminCourses from './components/Admin/AdminCourses/AdminCourses';
+import TextEditor from './components/TextEditor';
 import Users from './components/Admin/Users/Users';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
@@ -205,6 +206,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/editor" element={<TextEditor />} />
           </Routes>
           <Footer />
           <Toaster />
