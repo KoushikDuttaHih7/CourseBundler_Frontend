@@ -73,7 +73,8 @@ const editorConfig = {
   //defaultActionOnPaste: "insert_clear_html",
   buttons: buttons,
   uploader: {
-    insertImageAsBase64URI: true,
+    insertImageAsBase64URI: false,
+    imagesExtensions: ['jpg', 'png', 'jpeg', 'gif'],
   },
   width: 800,
   height: 842,
